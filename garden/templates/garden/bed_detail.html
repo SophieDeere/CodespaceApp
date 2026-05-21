@@ -1,0 +1,91 @@
+{% extends "garden/base.html" %}
+{% block title %}{{ bed.name }} – Grow2Go{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ bed.name }}</h1>
+    <div style="display:flex; gap:0.5rem; margin-top:0.4rem;">
+      <span class="badge {% if bed.bed_type == 'greenhouse' %}badge-earth{% endif %}">
+        {{ bed.get_bed_type_display }}
+      </span>
+      <span class="badge">☀️ {{ bed.get_location_display }}</span>
+      {% if bed.size_sqm %}
+      <span class="badge">📐 {{ bed.size_sqm }} m²</span>
+      {% endif %}
+    </div>
+  </div>
+  <div style="display:flex; gap:0.5rem;">
+    <a href="{% url 'bed_edit' bed.pk %}" class="btn btn-secondary btn-sm">Bearbeiten</a>
+    <a href="{% url 'bed_list' %}" class="btn btn-secondary btn-sm">← Alle Beete</a>
+  </div>
+</div>
+
+<div class="grid-2" style="margin-bottom:1.5rem;">
+  <!-- Aktuelle Belegung -->
+  <div class="card">
+    <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
+      🌱 Belegung 2026
+    </h2>
+    {% if plantings %}
+      <div style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
+        {% for planting in plantings %}
+        <div style="display:flex; align-items:center; justify-content:space-between;
+                    padding:0.6rem 0.8rem; background:var(--green-pale); border-radius:8px;">
+          <a href="{% url 'vegetable_detail' planting.vegetable.pk %}"
+             style="font-weight:500; color:var(--green-dark); text-decoration:none;">
+            {{ planting.vegetable.name }}
+          </a>
+          <form method="post" action="{% url 'planting_remove' planting.pk %}" style="margin:0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm"
+                    onclick="return confirm('{{ planting.vegetable.name }} entfernen?')">✕</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+        Noch keine Sorten eingetragen.
+      </p>
+    {% endif %}
+
+    <!-- Sorte hinzufügen -->
+    <form method="post" action="{% url 'planting_add' bed.pk %}">
+      {% csrf_token %}
+      <div style="display:flex; gap:0.5rem;">
+        <select name="vegetable" style="flex:1;">
+          <option value="">Sorte wählen…</option>
+          {% regroup vegetables by get_category_display as category_list %}
+          {% for category in category_list %}
+            <optgroup label="{{ category.grouper }}">
+              {% for veg in category.list %}
+              <option value="{{ veg.pk }}">{{ veg.name }}</option>
+              {% endfor %}
+            </optgroup>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">+ Hinzufügen</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Beetinfo -->
+  <div class="card">
+    <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
+      📋 Beetinformationen
+    </h2>
+    {% if bed.notes %}
+    <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;">{{ bed.notes }}</p>
+    {% else %}
+    <p style="font-size:0.85rem; color:var(--text-muted);">Keine Notizen eingetragen.</p>
+    {% endif %}
+
+    <div style="margin-top:1.5rem;">
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">
+        💡 Klick auf eine Sorte oben um den Anbaukalender und Pflegehinweise zu sehen.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

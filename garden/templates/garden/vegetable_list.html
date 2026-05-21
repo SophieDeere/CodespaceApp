@@ -1,0 +1,57 @@
+{% extends "garden/base.html" %}
+{% block title %}Gemüsesorten – Grow2Go{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Gemüsesorten</h1>
+</div>
+
+<!-- Filter -->
+<div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+  <a href="{% url 'vegetable_list' %}"
+     class="btn {% if not selected_category %}btn-primary{% else %}btn-secondary{% endif %} btn-sm">
+    Alle
+  </a>
+  {% for value, label in category_choices %}
+  <a href="?category={{ value }}"
+     class="btn {% if selected_category == value %}btn-primary{% else %}btn-secondary{% endif %} btn-sm">
+    {{ label }}
+  </a>
+  {% endfor %}
+</div>
+
+{% if vegetables %}
+<div class="grid-3">
+  {% for veg in vegetables %}
+  <a href="{% url 'vegetable_detail' veg.pk %}" style="text-decoration:none;">
+    <div class="card" style="cursor:pointer; transition: transform 0.15s, box-shadow 0.15s;"
+         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(45,74,45,0.12)'"
+         onmouseout="this.style.transform=''; this.style.boxShadow=''">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.5rem;">
+        <span style="font-family:'Fraunces',serif; font-size:1rem; font-weight:500; color:var(--green-dark);">
+          {{ veg.name }}
+        </span>
+        <span class="badge">{{ veg.get_category_display }}</span>
+      </div>
+      <div style="font-size:0.8rem; color:var(--text-muted); display:flex; gap:0.75rem;">
+        <span>☀️ {{ veg.get_sunlight_requirement_display }}</span>
+        <span>💧 {{ veg.get_water_requirement_display }}</span>
+      </div>
+      {% if veg.harvest_from %}
+      <div style="margin-top:0.6rem; font-size:0.8rem; color:var(--green-mid); font-weight:500;">
+        🌾 Ernte: Monat {{ veg.harvest_from }}–{{ veg.harvest_to }}
+      </div>
+      {% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card">
+  <div class="empty-state">
+    <div class="icon">🌱</div>
+    <p>Keine Sorten gefunden.</p>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

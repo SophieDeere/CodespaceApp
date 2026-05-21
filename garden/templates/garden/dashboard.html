@@ -1,0 +1,56 @@
+{% extends "garden/base.html" %}
+{% block title %}Grow2Go – Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Willkommen 🌿</h1>
+  <a href="{% url 'bed_create' %}" class="btn btn-primary">+ Neues Beet</a>
+</div>
+
+{% if beds %}
+  <div class="grid-3">
+    {% for bed in beds %}
+    <a href="{% url 'bed_detail' bed.pk %}" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer; transition: transform 0.15s, box-shadow 0.15s;"
+           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 24px rgba(45,74,45,0.12)'"
+           onmouseout="this.style.transform=''; this.style.boxShadow=''">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.75rem;">
+          <span style="font-family:'Fraunces',serif; font-size:1.1rem; font-weight:500; color:var(--green-dark);">
+            {{ bed.name }}
+          </span>
+          <span class="badge {% if bed.bed_type == 'greenhouse' %}badge-earth{% endif %}">
+            {{ bed.get_bed_type_display }}
+          </span>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem;">
+          ☀️ {{ bed.get_location_display }}
+          {% if bed.size_sqm %} · {{ bed.size_sqm }} m²{% endif %}
+        </div>
+        {% with count=bed.plantings.count %}
+        <div style="font-size:0.85rem; color:var(--green-mid); font-weight:500;">
+          🌱 {{ count }} Sorte{{ count|pluralize:"n" }} gepflanzt
+        </div>
+        {% endwith %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card">
+    <div class="empty-state">
+      <div class="icon">🌱</div>
+      <p>Noch keine Beete angelegt.</p>
+      <a href="{% url 'bed_create' %}" class="btn btn-primary">Erstes Beet anlegen</a>
+    </div>
+  </div>
+{% endif %}
+
+<div style="margin-top:2rem;">
+  <div class="page-header">
+    <h2 style="font-family:'Fraunces',serif; font-size:1.3rem; color:var(--green-dark);">
+      Gemüsedatenbank
+    </h2>
+    <a href="{% url 'vegetable_list' %}" class="btn btn-secondary">Alle anzeigen →</a>
+  </div>
+</div>
+{% endblock %}

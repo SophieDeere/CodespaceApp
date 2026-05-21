@@ -1,0 +1,245 @@
+{% extends "garden/base.html" %}
+{% block title %}{{ vegetable.name }} – Grow2Go{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ vegetable.name }}</h1>
+    <span class="badge" style="margin-top:0.3rem;">{{ vegetable.get_category_display }}</span>
+  </div>
+  <a href="{% url 'vegetable_list' %}" class="btn btn-secondary">← Zurück</a>
+</div>
+
+<div class="grid-2" style="margin-bottom:1.5rem;">
+  <!-- Standortansprüche -->
+  <div class="card">
+    <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
+      📍 Standortansprüche
+    </h2>
+    <table style="width:100%; font-size:0.875rem; border-collapse:collapse;">
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem 0; color:var(--text-muted);">Lichtbedarf</td>
+        <td style="padding:0.5rem 0; font-weight:500;">{{ vegetable.get_sunlight_requirement_display }}</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem 0; color:var(--text-muted);">Wasserbedarf</td>
+        <td style="padding:0.5rem 0; font-weight:500;">{{ vegetable.get_water_requirement_display }}</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:0.5rem 0; color:var(--text-muted);">Nährstoffbedarf</td>
+        <td style="padding:0.5rem 0; font-weight:500;">{{ vegetable.get_nutrient_demand_display }}</td>
+      </tr>
+      {% if vegetable.soil_type %}
+      <tr>
+        <td style="padding:0.5rem 0; color:var(--text-muted);">Bodentyp</td>
+        <td style="padding:0.5rem 0; font-weight:500;">{{ vegetable.soil_type }}</td>
+      </tr>
+      {% endif %}
+    </table>
+
+    {% if vegetable.description %}
+    <p style="margin-top:1rem; font-size:0.875rem; color:var(--text-muted); line-height:1.6;">
+      {{ vegetable.description }}
+    </p>
+    {% endif %}
+
+    {% if vegetable.saatgut_url %}
+    <a href="{{ vegetable.saatgut_url }}" target="_blank" class="btn btn-secondary btn-sm"
+       style="margin-top:1rem;">
+      🛒 Saatgut kaufen
+    </a>
+    {% endif %}
+  </div>
+
+  <!-- Nachbarn -->
+  <div class="card">
+    <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
+      🤝 Nachbarschaft
+    </h2>
+    {% if good_neighbors %}
+    <div style="margin-bottom:1rem;">
+      <p style="font-size:0.8rem; font-weight:500; color:#16a34a; margin-bottom:0.4rem;">
+        ✅ Gute Nachbarn
+      </p>
+      {% for rel in good_neighbors %}
+      <a href="{% url 'vegetable_detail' rel.neighbor.pk %}" class="neighbor-good"
+         style="text-decoration:none;">{{ rel.neighbor.name }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if bad_neighbors %}
+    <div style="margin-bottom:1rem;">
+      <p style="font-size:0.8rem; font-weight:500; color:#dc2626; margin-bottom:0.4rem;">
+        ❌ Schlechte Nachbarn
+      </p>
+      {% for rel in bad_neighbors %}
+      <a href="{% url 'vegetable_detail' rel.neighbor.pk %}" class="neighbor-bad"
+         style="text-decoration:none;">{{ rel.neighbor.name }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if herb_tips %}
+    <div style="margin-bottom:1rem;">
+      <p style="font-size:0.8rem; font-weight:500; color:var(--earth); margin-bottom:0.4rem;">
+        🌿 Förderliche Kräuter
+      </p>
+      {% for tip in herb_tips %}
+      <div style="font-size:0.85rem; margin-bottom:0.4rem;">
+        <strong>{{ tip.herb_name }}</strong> – {{ tip.benefit }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if not good_neighbors and not bad_neighbors and not herb_tips %}
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+      Noch keine Nachbarschaftsdaten eingetragen.
+    </p>
+    {% endif %}
+
+    {% if succession_notes %}
+    <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border);">
+      <p style="font-size:0.8rem; font-weight:500; color:var(--text-muted); margin-bottom:0.4rem;">
+        🔄 Fruchtfolge-Hinweis
+      </p>
+      {% for note in succession_notes %}
+      <p style="font-size:0.85rem; color:var(--text);">
+        Nicht nach <strong>{{ note.avoid_after.name }}</strong> pflanzen.
+        {% if note.note %} {{ note.note }}{% endif %}
+      </p>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Anbaukalender -->
+<div class="card">
+  <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1.25rem;">
+    📅 Anbaukalender
+  </h2>
+
+  <!-- Monatsbeschriftung -->
+  <div class="month-labels">
+    <div></div>
+    <div class="month-names">
+      {% for m in months %}<span>{{ m }}</span>{% endfor %}
+    </div>
+  </div>
+
+  <!-- Freiland -->
+  <p style="font-size:0.8rem; font-weight:500; color:var(--green-mid); margin-bottom:0.5rem;">🌤 Freiland</p>
+
+  {% if vegetable.indoor_start_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Voranzucht</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.indoor_start_from and m <= vegetable.indoor_start_to %}active{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if vegetable.sow_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Aussaat</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.sow_from and m <= vegetable.sow_to %}active{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if vegetable.plant_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Pflanzung</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.plant_from and m <= vegetable.plant_to %}active{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if vegetable.harvest_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Ernte</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.harvest_from and m <= vegetable.harvest_to %}active{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Gewächshaus -->
+  {% if vegetable.gh_sow_from or vegetable.gh_plant_from or vegetable.gh_harvest_from %}
+  <p style="font-size:0.8rem; font-weight:500; color:var(--earth); margin-top:1.25rem; margin-bottom:0.5rem;">
+    🏡 Gewächshaus
+  </p>
+
+  {% if vegetable.gh_sow_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Aussaat</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.gh_sow_from and m <= vegetable.gh_sow_to %}active-gh{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if vegetable.gh_plant_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Pflanzung</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.gh_plant_from and m <= vegetable.gh_plant_to %}active-gh{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if vegetable.gh_harvest_from %}
+  <div class="calendar-row">
+    <span class="calendar-label">Ernte</span>
+    <div class="month-bar">
+      {% for i in "123456789abc" %}
+      {% with forloop.counter as m %}
+      <div class="month-cell {% if m >= vegetable.gh_harvest_from and m <= vegetable.gh_harvest_to %}active-gh{% endif %}"></div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <!-- Legende -->
+  <div style="display:flex; gap:1rem; margin-top:1rem; font-size:0.75rem; color:var(--text-muted);">
+    <span style="display:flex; align-items:center; gap:0.3rem;">
+      <span style="width:14px; height:14px; background:var(--green-mid); border-radius:3px; display:inline-block;"></span>
+      Freiland
+    </span>
+    <span style="display:flex; align-items:center; gap:0.3rem;">
+      <span style="width:14px; height:14px; background:var(--earth); border-radius:3px; display:inline-block;"></span>
+      Gewächshaus
+    </span>
+  </div>
+</div>
+{% endblock %}

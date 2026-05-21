@@ -1,0 +1,550 @@
+[
+  {
+    "model": "garden.vegetable",
+    "pk": 1,
+    "fields": {
+      "name": "Tomate",
+      "category": "fruit",
+      "description": "Klassisches FruchtgemÃ¼se fÃ¼r sonnige Standorte. Braucht viel WÃ¤rme und regelmÃ¤ÃŸiges GieÃŸen.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "high",
+      "soil_type": "humusreich, durchlÃ¤ssig, nÃ¤hrstoffreich",
+      "nutrient_demand": "high",
+      "indoor_start_from": 2, "indoor_start_to": 3,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 7, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": 3, "gh_plant_to": 4,
+      "gh_harvest_from": 6, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/tomaten"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 2,
+    "fields": {
+      "name": "Gurke",
+      "category": "fruit",
+      "description": "WÃ¤rmeliebendes FruchtgemÃ¼se, ideal fÃ¼r GewÃ¤chshaus oder geschÃ¼tzte Standorte.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "high",
+      "soil_type": "humusreich, warm, feucht",
+      "nutrient_demand": "high",
+      "indoor_start_from": 4, "indoor_start_to": 4,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 7, "harvest_to": 9,
+      "gh_sow_from": 3, "gh_sow_to": 4,
+      "gh_plant_from": 4, "gh_plant_to": 5,
+      "gh_harvest_from": 6, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/gurken"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 3,
+    "fields": {
+      "name": "Zucchini",
+      "category": "fruit",
+      "description": "Unkompliziertes, ertragsreiches FruchtgemÃ¼se. Braucht viel Platz.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, nÃ¤hrstoffreich",
+      "nutrient_demand": "high",
+      "indoor_start_from": 4, "indoor_start_to": 4,
+      "sow_from": 5, "sow_to": 5,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 7, "harvest_to": 9,
+      "gh_sow_from": 3, "gh_sow_to": 4,
+      "gh_plant_from": 4, "gh_plant_to": 5,
+      "gh_harvest_from": 6, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/zucchini"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 4,
+    "fields": {
+      "name": "Paprika",
+      "category": "fruit",
+      "description": "WÃ¤rmeliebendes FruchtgemÃ¼se, ideal fÃ¼r GewÃ¤chshaus oder sehr warme Standorte.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, durchlÃ¤ssig, warm",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 2, "indoor_start_to": 3,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 7, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": 3, "gh_plant_to": 4,
+      "gh_harvest_from": 6, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/paprika"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 5,
+    "fields": {
+      "name": "Aubergine",
+      "category": "fruit",
+      "description": "WÃ¤rmeliebend und empfindlich â€“ am besten im GewÃ¤chshaus oder an sehr warmen Standorten.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, warm, durchlÃ¤ssig",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 2, "indoor_start_to": 3,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 8, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": 3, "gh_plant_to": 4,
+      "gh_harvest_from": 6, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/aubergine"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 6,
+    "fields": {
+      "name": "KÃ¼rbis",
+      "category": "fruit",
+      "description": "PlatzbedÃ¼rftiger RankenkÃ¼nstler mit langer Wachstumszeit. Ideal fÃ¼r KompostnÃ¤he.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "high",
+      "soil_type": "sehr humusreich, nÃ¤hrstoffreich, warm",
+      "nutrient_demand": "high",
+      "indoor_start_from": 4, "indoor_start_to": 4,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 9, "harvest_to": 10,
+      "gh_sow_from": 3, "gh_sow_to": 4,
+      "gh_plant_from": 4, "gh_plant_to": 5,
+      "gh_harvest_from": 8, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/kuerbis"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 7,
+    "fields": {
+      "name": "Salat",
+      "category": "leaf",
+      "description": "Schnellwachsendes BlattgemÃ¼se fÃ¼r FrÃ¼hjahr und Herbst.",
+      "sunlight_requirement": "partial_shade",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, feucht, locker",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 2, "indoor_start_to": 3,
+      "sow_from": 3, "sow_to": 8,
+      "plant_from": 4, "plant_to": 9,
+      "harvest_from": 5, "harvest_to": 10,
+      "gh_sow_from": 1, "gh_sow_to": 3,
+      "gh_plant_from": 2, "gh_plant_to": 4,
+      "gh_harvest_from": 3, "gh_harvest_to": 11,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/salat"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 8,
+    "fields": {
+      "name": "Spinat",
+      "category": "leaf",
+      "description": "NÃ¤hrstoffreiches BlattgemÃ¼se fÃ¼r kÃ¼hle Jahreszeiten. SchieÃŸt bei Hitze schnell.",
+      "sunlight_requirement": "partial_shade",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, stickstoffreich",
+      "nutrient_demand": "medium",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 3, "sow_to": 4,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 5, "harvest_to": 6,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 4, "gh_harvest_to": 5,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/spinat"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 9,
+    "fields": {
+      "name": "Mangold",
+      "category": "leaf",
+      "description": "Ausdauerndes BlattgemÃ¼se, das Ã¼ber Monate geerntet werden kann.",
+      "sunlight_requirement": "partial_shade",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, nÃ¤hrstoffreich, gleichmÃ¤ÃŸig feucht",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 3, "indoor_start_to": 4,
+      "sow_from": 4, "sow_to": 6,
+      "plant_from": 5, "plant_to": 7,
+      "harvest_from": 6, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 4,
+      "gh_plant_from": 3, "gh_plant_to": 5,
+      "gh_harvest_from": 4, "gh_harvest_to": 11,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/mangold"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 10,
+    "fields": {
+      "name": "MÃ¶hre",
+      "category": "root",
+      "description": "Klassisches WurzelgemÃ¼se. Braucht tiefe, lockere Erde ohne Steine.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "tief, locker, steinarm, sandig-lehmig",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 3, "sow_to": 6,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 6, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 4,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 5, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/moehren"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 11,
+    "fields": {
+      "name": "Rote Bete",
+      "category": "root",
+      "description": "Robustes WurzelgemÃ¼se, gut lagerbar. Liebt gleichmÃ¤ÃŸige Feuchtigkeit.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "tiefgrÃ¼ndig, humusreich, locker",
+      "nutrient_demand": "medium",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 4, "sow_to": 6,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 7, "harvest_to": 10,
+      "gh_sow_from": 3, "gh_sow_to": 5,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 6, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/rote-bete"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 12,
+    "fields": {
+      "name": "Radieschen",
+      "category": "root",
+      "description": "Schnellstes GemÃ¼se im Garten â€“ schon nach 3â€“4 Wochen erntereif.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "locker, humusreich, gleichmÃ¤ÃŸig feucht",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 3, "sow_to": 8,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 4, "harvest_to": 9,
+      "gh_sow_from": 2, "gh_sow_to": 9,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 3, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/radieschen"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 13,
+    "fields": {
+      "name": "Kartoffel",
+      "category": "root",
+      "description": "SÃ¤ttigende Knolle, die viel Platz und lockeren Boden braucht.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "locker, humusreich, tiefgrÃ¼ndig, leicht sauer",
+      "nutrient_demand": "high",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": null, "sow_to": null,
+      "plant_from":
+ 3, "plant_to": 5,
+      "harvest_from": 7, "harvest_to": 9,
+      "gh_sow_from": null, "gh_sow_to": null,
+      "gh_plant_from": 2, "gh_plant_to": 4,
+      "gh_harvest_from": 5, "gh_harvest_to": 8,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/kartoffeln"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 14,
+    "fields": {
+      "name": "Zwiebel",
+      "category": "bulb",
+      "description": "Unverzichtbar in der KÃ¼che. Gut lagerbar nach der Ernte.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "low",
+      "soil_type": "durchlÃ¤ssig, locker, nicht zu stickstoffreich",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 3, "sow_to": 4,
+      "plant_from": 3, "plant_to": 4,
+      "harvest_from": 7, "harvest_to": 8,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": 2, "gh_plant_to": 3,
+      "gh_harvest_from": 6, "gh_harvest_to": 7,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/zwiebeln"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 15,
+    "fields": {
+      "name": "Knoblauch",
+      "category": "bulb",
+      "description": "Wird im Herbst oder FrÃ¼hjahr gesteckt. NatÃ¼rlicher Pflanzenschutz als Nachbar.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "low",
+      "soil_type": "durchlÃ¤ssig, locker, humusreich",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 10, "plant_to": 11,
+      "harvest_from": 6, "harvest_to": 7,
+      "gh_sow_from": null, "gh_sow_to": null,
+      "gh_plant_from": 9, "gh_plant_to": 10,
+      "gh_harvest_from": 5, "gh_harvest_to": 6,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/knoblauch"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 16,
+    "fields": {
+      "name": "Buschbohne",
+      "category": "legume",
+      "description": "Kompakte Bohne ohne StÃ¼tze, ideal fÃ¼r kleinere Beete. Verbessert den Boden durch Stickstoffbindung.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, warm, durchlÃ¤ssig",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 5, "sow_to": 6,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 7, "harvest_to": 9,
+      "gh_sow_from": 4, "gh_sow_to": 5,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 6, "gh_harvest_to": 8,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/bohnen"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 17,
+    "fields": {
+      "name": "Stangenbohne",
+      "category": "legume",
+      "description": "Hochwachsende Bohne, braucht Kletterhilfe. Sehr ertragreich Ã¼ber lange Zeit.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, warm, tiefgrÃ¼ndig",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 5, "sow_to": 6,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 7, "harvest_to": 10,
+      "gh_sow_from": 4, "gh_sow_to": 5,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 6, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/bohnen"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 18,
+    "fields": {
+      "name": "Dicke Bohne",
+      "category": "legume",
+      "description": "Auch Saubohne genannt. VertrÃ¤gt KÃ¤lte und wird frÃ¼h im Jahr gesÃ¤t.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "tiefgrÃ¼ndig, lehmig, nÃ¤hrstoffreich",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 2, "sow_to": 4,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 6, "harvest_to": 7,
+      "gh_sow_from": 1, "gh_sow_to": 3,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 5, "gh_harvest_to": 6,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/bohnen"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 19,
+    "fields": {
+      "name": "Zuckererbse",
+      "category": "legume",
+      "description": "Wird mit HÃ¼lse gegessen. Sehr sÃ¼ÃŸ und zart, ideal fÃ¼r den Rohverzehr.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "durchlÃ¤ssig, humusreich, nicht zu stickstoffreich",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 3, "sow_to": 5,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 6, "harvest_to": 8,
+      "gh_sow_from": 2, "gh_sow_to": 4,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 5, "gh_harvest_to": 7,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/erbsen"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 20,
+    "fields": {
+      "name": "Markerbse",
+      "category": "legume",
+      "description": "Klassische Erbse zum Auspalen. SÃ¼ÃŸer und zarter als Schalerbsen.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "durchlÃ¤ssig, humusreich, nicht zu stickstoffreich",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 3, "sow_to": 5,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 6, "harvest_to": 8,
+      "gh_sow_from": 2, "gh_sow_to": 4,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 5, "gh_harvest_to": 7,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/erbsen"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 21,
+    "fields": {
+      "name": "Brokkoli",
+      "category": "brassica",
+      "description": "NÃ¤hrstoffreiches KohlgemÃ¼se. Braucht viel Stickstoff und gleichmÃ¤ÃŸige Feuchtigkeit.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "high",
+      "soil_type": "humusreich, nÃ¤hrstoffreich, tiefgrÃ¼ndig",
+      "nutrient_demand": "high",
+      "indoor_start_from": 3, "indoor_start_to": 4,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 7, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": 3, "gh_plant_to": 5,
+      "gh_harvest_from": 5, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/brokkoli"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 22,
+    "fields": {
+      "name": "Kohlrabi",
+      "category": "brassica",
+      "description": "Schnellwachsendes KohlgemÃ¼se, das auch roh schmeckt.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, nÃ¤hrstoffreich",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 2, "indoor_start_to": 3,
+      "sow_from": 3, "sow_to": 7,
+      "plant_from": 4, "plant_to": 8,
+      "harvest_from": 5, "harvest_to": 10,
+      "gh_sow_from": 1, "gh_sow_to": 3,
+      "gh_plant_from": 2, "gh_plant_to": 4,
+      "gh_harvest_from": 3, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/kohlrabi"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 23,
+    "fields": {
+      "name": "Petersilie",
+      "category": "herb",
+      "description": "Beliebtes KÃ¼chenkraut, zweijÃ¤hrig. Guter Nachbar fÃ¼r viele GemÃ¼sesorten.",
+      "sunlight_requirement": "partial_shade",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, locker, gleichmÃ¤ÃŸig feucht",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 2, "indoor_start_to": 3,
+      "sow_from": 3, "sow_to": 6,
+      "plant_from": 4, "plant_to": 7,
+      "harvest_from": 5, "harvest_to": 11,
+      "gh_sow_from": 1, "gh_sow_to": 3,
+      "gh_plant_from": 2, "gh_plant_to": 4,
+      "gh_harvest_from": 3, "gh_harvest_to": 12,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/kraeuter/petersilie"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 24,
+    "fields": {
+      "name": "Dill",
+      "category": "herb",
+      "description": "Schnellwachsendes KÃ¼chenkraut. Guter Nachbar fÃ¼r Gurken, schlechter fÃ¼r Tomaten.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "low",
+      "soil_type": "durchlÃ¤ssig, nÃ¤hrstoffarm, sandig",
+      "nutrient_demand": "low",
+      "indoor_start_from": null, "indoor_start_to": null,
+      "sow_from": 4, "sow_to": 7,
+      "plant_from": null, "plant_to": null,
+      "harvest_from": 6, "harvest_to": 9,
+      "gh_sow_from": 3, "gh_sow_to": 6,
+      "gh_plant_from": null, "gh_plant_to": null,
+      "gh_harvest_from": 5, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/kraeuter/dill"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 25,
+    "fields": {
+      "name": "Basilikum",
+      "category": "herb",
+      "description": "WÃ¤rmeliebendes KÃ¼chenkraut, bester Freund der Tomate. VertrÃ¤gt keine KÃ¤lte.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "humusreich, warm, durchlÃ¤ssig",
+      "nutrient_demand": "low",
+      "indoor_start_from": 3, "indoor_start_to": 4,
+      "sow_from": null, "sow_to": null,
+      "plant_from": 5, "plant_to": 6,
+      "harvest_from": 6, "harvest_to": 9,
+      "gh_sow_from": 2, "gh_sow_to": 4,
+      "gh_plant_from": 4, "gh_plant_to": 5,
+      "gh_harvest_from": 5, "gh_harvest_to": 10,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/kraeuter/basilikum"
+    }
+  },
+  {
+    "model": "garden.vegetable",
+    "pk": 26,
+    "fields": {
+      "name": "Fenchel",
+      "category": "other",
+      "description":
+ "Aromatisches GemÃ¼se, das viele Nachbarn negativ beeinflusst â€“ EinzelgÃ¤nger im Beet.",
+      "sunlight_requirement": "full_sun",
+      "water_requirement": "medium",
+      "soil_type": "durchlÃ¤ssig, warm, nÃ¤hrstoffreich",
+      "nutrient_demand": "medium",
+      "indoor_start_from": 3, "indoor_start_to": 4,
+      "sow_from": 4, "sow_to": 6,
+      "plant_from": 5, "plant_to": 7,
+      "harvest_from": 8, "harvest_to": 10,
+      "gh_sow_from": 2, "gh_sow_to": 3,
+      "gh_plant_from": 3, "gh_plant_to": 5,
+      "gh_harvest_from": 6, "gh_harvest_to": 9,
+      "saatgut_url": "https://www.bingenheimer-saatgut.de/gemuese/fenchel"
+    }
+  }
+]

@@ -1,0 +1,20 @@
+{% extends "garden/base.html" %}
+{% block title %}Beet löschen – Grow2Go{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Beet löschen</h1>
+</div>
+
+<div class="card" style="max-width:480px;">
+  <p style="margin-bottom:1.5rem;">
+    Möchtest du das Beet <strong>{{ bed.name }}</strong> wirklich löschen?
+    Alle Beetbelegungen werden dabei ebenfalls entfernt.
+  </p>
+  <form method="post" style="display:flex; gap:0.75rem;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ja, löschen</button>
+    <a href="{% url 'bed_list' %}" class="btn btn-secondary">Abbrechen</a>
+  </form>
+</div>
+{% endblock %}

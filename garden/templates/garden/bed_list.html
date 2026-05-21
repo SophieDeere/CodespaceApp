@@ -1,0 +1,59 @@
+{% extends "garden/base.html" %}
+{% block title %}Meine Beete – Grow2Go{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">Meine Beete</h1>
+  <a href="{% url 'bed_create' %}" class="btn btn-primary">+ Neues Beet</a>
+</div>
+
+{% if beds %}
+  <div class="grid-2">
+    {% for bed in beds %}
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+        <div>
+          <span style="font-family:'Fraunces',serif; font-size:1.2rem; font-weight:500; color:var(--green-dark);">
+            {{ bed.name }}
+          </span>
+          <span class="badge {% if bed.bed_type == 'greenhouse' %}badge-earth{% endif %}" style="margin-left:0.5rem;">
+            {{ bed.get_bed_type_display }}
+          </span>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <a href="{% url 'bed_edit' bed.pk %}" class="btn btn-secondary btn-sm">Bearbeiten</a>
+          <a href="{% url 'bed_delete' bed.pk %}" class="btn btn-danger btn-sm">Löschen</a>
+        </div>
+      </div>
+
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+        ☀️ {{ bed.get_location_display }}
+        {% if bed.size_sqm %} · {{ bed.size_sqm }} m²{% endif %}
+      </div>
+
+      {% with plantings=bed.plantings.all %}
+      {% if plantings %}
+        <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
+          {% for p in plantings %}
+          <span class="badge">🌱 {{ p.vegetable.name }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Noch keine Sorten eingetragen.</p>
+      {% endif %}
+      {% endwith %}
+
+      <a href="{% url 'bed_detail' bed.pk %}" class="btn btn-secondary btn-sm">Beet öffnen →</a>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card">
+    <div class="empty-state">
+      <div class="icon">🛏</div>
+      <p>Noch keine Beete angelegt.</p>
+      <a href="{% url 'bed_create' %}" class="btn btn-primary">Erstes Beet anlegen</a>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
