@@ -23,11 +23,27 @@
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:0.5rem 0; color:var(--text-muted);">Wasserbedarf</td>
-        <td style="padding:0.5rem 0; font-weight:500;">{{ vegetable.get_water_requirement_display }}</td>
+        <td style="padding:0.5rem 0; font-weight:500;">
+          {% if vegetable.water_requirement == 'low' %}
+            💧 Gering
+          {% elif vegetable.water_requirement == 'medium' %}
+            💧💧 Mittel
+          {% else %}
+            💧💧💧 Hoch
+          {% endif %}
+        </td>
       </tr>
       <tr style="border-bottom:1px solid var(--border);">
         <td style="padding:0.5rem 0; color:var(--text-muted);">Nährstoffbedarf</td>
-        <td style="padding:0.5rem 0; font-weight:500;">{{ vegetable.get_nutrient_demand_display }}</td>
+        <td style="padding:0.5rem 0; font-weight:500;">
+          {% if vegetable.nutrient_demand == 'low' %}
+            🟢 Schwachzehrer
+          {% elif vegetable.nutrient_demand == 'medium' %}
+            🟢🟢 Mittelzehrer
+          {% else %}
+            🟢🟢🟢 Starkzehrer
+          {% endif %}
+        </td>
       </tr>
       {% if vegetable.soil_type %}
       <tr>
