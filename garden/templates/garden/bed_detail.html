@@ -1,4 +1,4 @@
-{% extends "garden/base.html" %}
+Gießerinnerung{% extends "garden/base.html" %}
 {% block title %}{{ bed.name }} – Grow2Go{% endblock %}
 
 {% block content %}
@@ -21,56 +21,92 @@
   </div>
 </div>
 
-<div class="grid-2" style="margin-bottom:1.5rem;">
-  <!-- Aktuelle Belegung -->
+<!-- ERINNERUNGEN -->
+<div class="grid-2" style="margin-bottom:1rem;">
+
+  <!-- GIESSERINNERUNG -->
   <div class="card">
     <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
-      🌱 Belegung 2026
+      💧 Gießerinnerung
     </h2>
-    {% if plantings %}
-      <div style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
-        {% for planting in plantings %}
-        <div style="display:flex; align-items:center; justify-content:space-between;
-                    padding:0.6rem 0.8rem; background:var(--green-pale); border-radius:8px;">
-          <a href="{% url 'vegetable_detail' planting.vegetable.pk %}"
-             style="font-weight:500; color:var(--green-dark); text-decoration:none;">
-            {{ planting.vegetable.name }}
-          </a>
-          <form method="post" action="{% url 'planting_remove' planting.pk %}" style="margin:0;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-sm"
-                    onclick="return confirm('{{ planting.vegetable.name }} entfernen?')">✕</button>
-          </form>
-        </div>
-        {% endfor %}
+
+    {% if watering %}
+      <div>
+        <p style="font-size:0.9rem; color:var(--text);">
+          Alle <strong>{{ watering.interval_days }} Tage</strong> gießen
+        </p>
+        {% if watering.next_watering %}
+          {% if watering.next_watering <= today %}
+            <p style="font-size:0.85rem; color:#dc2626; font-weight:500; margin-top:0.3rem;">
+              💧 Heute gießen! (fällig seit {{ watering.next_watering }})
+            </p>
+          {% else %}
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.3rem;">
+              Nächstes Gießen: <strong>{{ watering.next_watering }}</strong>
+            </p>
+          {% endif %}
+        {% endif %}
+        {% if watering.last_watered %}
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem;">
+          Zuletzt gegossen: {{ watering.last_watered }}
+        </p>
+        {% endif %}
       </div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem;">
+        <form method="post" action="{% url 'watering_done' bed.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-sm">✅ Heute gegossen</button>
+        </form>
+        <button onclick="document.getElementById('watering-form').style.display='block'; this.style.display='none'"
+                class="btn btn-secondary btn-sm">⚙️ Ändern</button>
+        <form method="post" action="{% url 'watering_delete' bed.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm"
+                  onclick="return confirm('Gießerinnerung löschen?')">✕</button>
+        </form>
+      </div>
+
+      <div id="watering-form" style="display:none; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border);">
+        <form method="post" action="{% url 'watering_save' bed.pk %}">
+          {% csrf_token %}
+          <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
+            <div class="form-group" style="margin:0;">
+              <label>Intervall (Tage)</label>
+              <input type="number" name="interval_days" value="{{ watering.interval_days }}"
+                     min="1" max="30" style="width:100px;">
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label>Zuletzt gegossen</label>
+              <input type="date" name="last_watered"
+                     value="{{ watering.last_watered|date:'Y-m-d' }}">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Speichern</button>
+          </div>
+        </form>
+      </div>
+
     {% else %}
       <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
-        Noch keine Sorten eingetragen.
+        Noch keine Gießerinnerung eingerichtet.
       </p>
+      <form method="post" action="{% url 'watering_save' bed.pk %}">
+        {% csrf_token %}
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end;">
+          <div class="form-group" style="margin:0;">
+            <label>Alle wie viele Tage?</label>
+            <input type="number" name="interval_days" value="2" min="1" max="30" style="width:100px;">
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label>Zuletzt gegossen</label>
+            <input type="date" name="last_watered" value="{{ today|date:'Y-m-d' }}">
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">💧 Einrichten</button>
+        </div>
+      </form>
     {% endif %}
-
-    <!-- Sorte hinzufügen -->
-    <form method="post" action="{% url 'planting_add' bed.pk %}">
-      {% csrf_token %}
-      <div style="display:flex; gap:0.5rem;">
-        <select name="vegetable" style="flex:1;">
-          <option value="">Sorte wählen…</option>
-          {% regroup vegetables by get_category_display as category_list %}
-          {% for category in category_list %}
-            <optgroup label="{{ category.grouper }}">
-              {% for veg in category.list %}
-              <option value="{{ veg.pk }}">{{ veg.name }}</option>
-              {% endfor %}
-            </optgroup>
-          {% endfor %}
-        </select>
-        <button type="submit" class="btn btn-primary">+ Hinzufügen</button>
-      </div>
-    </form>
   </div>
 
-  <!-- Beetinfo -->
+  <!-- BEETINFORMATIONEN -->
   <div class="card">
     <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
       📋 Beetinformationen
@@ -80,12 +116,104 @@
     {% else %}
     <p style="font-size:0.85rem; color:var(--text-muted);">Keine Notizen eingetragen.</p>
     {% endif %}
-
     <div style="margin-top:1.5rem;">
-      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">
-        💡 Klick auf eine Sorte oben um den Anbaukalender und Pflegehinweise zu sehen.
+      <p style="font-size:0.85rem; color:var(--text-muted);">
+        💡 Klick auf eine Sorte um den Anbaukalender und Pflegehinweise zu sehen.
       </p>
     </div>
   </div>
+</div>
+
+<!-- BEETBELEGUNG -->
+<div class="card">
+  <h2 style="font-family:'Fraunces',serif; font-size:1.1rem; color:var(--green-dark); margin-bottom:1rem;">
+    🌱 Belegung 2026
+  </h2>
+
+  {% if plantings %}
+    <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1rem;">
+      {% for planting in plantings %}
+      <div style="background:var(--green-pale); border-radius:8px; padding:0.75rem;">
+
+        <!-- Sortenname + Entfernen -->
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem;">
+          <a href="{% url 'vegetable_detail' planting.vegetable.pk %}"
+             style="font-weight:500; color:var(--green-dark); text-decoration:none; font-size:0.95rem;">
+            {{ planting.vegetable.name }}
+          </a>
+          <form method="post" action="{% url 'planting_remove' planting.pk %}" style="margin:0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm"
+                    onclick="return confirm('{{ planting.vegetable.name }} entfernen?')">✕</button>
+          </form>
+        </div>
+
+        <!-- Düngeerinnerung -->
+        <div style="font-size:0.82rem; padding-top:0.5rem; border-top:1px solid rgba(0,0,0,0.06);">
+          {% if planting.fertilizing_reminder %}
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <span style="color:var(--earth); font-weight:500;">
+                🟢 Düngen alle {{ planting.fertilizing_reminder.interval_days }} Tage
+              </span>
+              {% if planting.fertilizing_reminder.next_fertilizing %}
+                {% if planting.fertilizing_reminder.next_fertilizing <= today %}
+                  <span style="color:#dc2626; font-weight:500;">– heute fällig!</span>
+                {% else %}
+                  <span style="color:var(--text-muted);">
+                    – nächstes: {{ planting.fertilizing_reminder.next_fertilizing }}
+                  </span>
+                {% endif %}
+              {% endif %}
+              <form method="post" action="{% url 'fertilizing_done' planting.pk %}" style="margin:0;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-sm">✅ Gedüngt</button>
+              </form>
+              <form method="post" action="{% url 'fertilizing_delete' planting.pk %}" style="margin:0;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Düngeerinnerung löschen?')">✕</button>
+              </form>
+            </div>
+          {% else %}
+            <form method="post" action="{% url 'fertilizing_save' planting.pk %}">
+              {% csrf_token %}
+              <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                <span style="color:var(--text-muted);">Düngen alle</span>
+                <input type="number" name="interval_days" value="30" min="1" max="90"
+                       style="width:65px; padding:0.25rem 0.5rem; font-size:0.82rem;">
+                <span style="color:var(--text-muted);">Tage</span>
+                <button type="submit" class="btn btn-secondary btn-sm">🟢 Düngeerinnerung einrichten</button>
+              </div>
+            </form>
+          {% endif %}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+      Noch keine Sorten eingetragen.
+    </p>
+  {% endif %}
+
+  <!-- Sorte hinzufügen -->
+  <form method="post" action="{% url 'planting_add' bed.pk %}">
+    {% csrf_token %}
+    <div style="display:flex; gap:0.5rem;">
+      <select name="vegetable" style="flex:1;">
+        <option value="">Sorte wählen…</option>
+        {% regroup vegetables by get_category_display as category_list %}
+        {% for category in category_list %}
+          <optgroup label="{{ category.grouper }}">
+            {% for veg in category.list %}
+            <option value="{{ veg.pk }}">{{ veg.name }}</option>
+            {% endfor %}
+          </optgroup>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-primary">+ Hinzufügen</button>
+    </div>
+  </form>
 </div>
 {% endblock %}

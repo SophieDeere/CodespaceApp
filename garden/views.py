@@ -1,6 +1,8 @@
+from datetime import date, timedelta
+
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Bed, BedPlanting, Vegetable
+from .models import Bed, BedPlanting, FertilizingReminder, Vegetable, WateringReminder
 
 
 # ---------------------------------------------------------------------------
@@ -72,12 +74,23 @@ def bed_delete(request, pk):
 
 def bed_detail(request, pk):
     bed = get_object_or_404(Bed, pk=pk)
-    plantings = bed.plantings.select_related("vegetable").filter(year=2026)
+    plantings = bed.plantings.select_related(
+        "vegetable", "fertilizing_reminder"
+    ).filter(year=2026)
     vegetables = Vegetable.objects.order_by("category", "name")
+
+    # Gießerinnerung holen oder None
+    try:
+        watering = bed.watering_reminder
+    except WateringReminder.DoesNotExist:
+        watering = None
+
     return render(request, "garden/bed_detail.html", {
         "bed": bed,
         "plantings": plantings,
         "vegetables": vegetables,
+        "watering": watering,
+        "today": date.today(),
     })
 
 
@@ -104,6 +117,101 @@ def planting_remove(request, pk):
 
 
 # ---------------------------------------------------------------------------
+# Gießerinnerung
+# ---------------------------------------------------------------------------
+
+def watering_save(request, bed_pk):
+    """Gießerinnerung anlegen oder aktualisieren."""
+    bed = get_object_or_404(Bed, pk=bed_pk)
+    if request.method == "POST":
+        interval_days = int(request.POST.get("interval_days", 2))
+        last_watered_str = request.POST.get("last_watered") or None
+        last_watered = date.fromisoformat(last_watered_str) if last_watered_str else date.today()
+        next_watering = last_watered + timedelta(days=interval_days)
+
+        watering, _ = WateringReminder.objects.get_or_create(bed=bed)
+        watering.interval_days = interval_days
+        watering.is_active = True
+        watering.last_watered = last_watered
+        watering.next_watering = next_watering
+        watering.save()
+    return redirect("bed_detail", pk=bed_pk)
+
+
+def watering_done(request, bed_pk):
+    """Gießen als erledigt markieren – nächsten Termin berechnen."""
+    bed = get_object_or_404(Bed, pk=bed_pk)
+    if request.method == "POST":
+        try:
+            watering = bed.watering_reminder
+            watering.last_watered = date.today()
+            watering.next_watering = date.today() + timedelta(days=watering.interval_days)
+            watering.weather_suppressed = False
+            watering.save()
+        except WateringReminder.DoesNotExist:
+            pass
+    return redirect("bed_detail", pk=bed_pk)
+
+
+def watering_delete(request, bed_pk):
+    """Gießerinnerung löschen."""
+    bed = get_object_or_404(Bed, pk=bed_pk)
+    if request.method == "POST":
+        try:
+            bed.watering_reminder.delete()
+        except WateringReminder.DoesNotExist:
+            pass
+    return redirect("bed_detail", pk=bed_pk)
+
+
+# ---------------------------------------------------------------------------
+# Düngeerinnerung
+# ---------------------------------------------------------------------------
+
+def fertilizing_save(request, planting_pk):
+    """Düngeerinnerung für eine Beetbelegung anlegen oder aktualisieren."""
+    planting = get_object_or_404(BedPlanting, pk=planting_pk)
+    if request.method == "POST":
+        interval_days = int(request.POST.get("interval_days", 30))
+        last_fertilized_str = request.POST.get("last_fertilized") or None
+        last_fertilized = date.fromisoformat(last_fertilized_str) if last_fertilized_str else date.today()
+        next_fertilizing = last_fertilized + timedelta(days=interval_days)
+
+        reminder, _ = FertilizingReminder.objects.get_or_create(bed_planting=planting)
+        reminder.interval_days = interval_days
+        reminder.is_active = True
+        reminder.last_fertilized = last_fertilized
+        reminder.next_fertilizing = next_fertilizing
+        reminder.save()
+    return redirect("bed_detail", pk=planting.bed.pk)
+
+
+def fertilizing_done(request, planting_pk):
+    """Düngen als erledigt markieren."""
+    planting = get_object_or_404(BedPlanting, pk=planting_pk)
+    if request.method == "POST":
+        try:
+            reminder = planting.fertilizing_reminder
+            reminder.last_fertilized = date.today()
+            reminder.next_fertilizing = date.today() + timedelta(days=reminder.interval_days)
+            reminder.save()
+        except FertilizingReminder.DoesNotExist:
+            pass
+    return redirect("bed_detail", pk=planting.bed.pk)
+
+
+def fertilizing_delete(request, planting_pk):
+    """Düngeerinnerung löschen."""
+    planting = get_object_or_404(BedPlanting, pk=planting_pk)
+    if request.method == "POST":
+        try:
+            planting.fertilizing_reminder.delete()
+        except FertilizingReminder.DoesNotExist:
+            pass
+    return redirect("bed_detail", pk=planting.bed.pk)
+
+
+# ---------------------------------------------------------------------------
 # Gemüsesorten & Anbaukalender
 # ---------------------------------------------------------------------------
 
@@ -122,7 +230,6 @@ def vegetable_list(request):
 
 def vegetable_detail(request, pk):
     vegetable = get_object_or_404(Vegetable, pk=pk)
-    # Nachbarn
     good_neighbors = vegetable.neighbor_relations.filter(
         relation_type="good"
     ).select_related("neighbor")
@@ -143,5 +250,3 @@ def vegetable_detail(request, pk):
             "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"
         ],
     })
-
-
